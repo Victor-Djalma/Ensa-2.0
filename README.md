@@ -1,116 +1,121 @@
-# Ensa-2.0
+# 🛡️ ENSA 2.0: Network Security Analyzer
 
-ENSA 2.0 – Network Security Analyzer
+O **ENSA 2.0** (Network Security Analyzer) é uma aplicação web local projetada para realizar **análises de rede** e **detecção de vulnerabilidades** de forma eficiente e segura. Utilizando uma arquitetura robusta baseada em **Nmap**, **Flask**, **Nginx** e **Bind9**, o projeto oferece uma interface web intuitiva em HTML, CSS e JavaScript para simplificar o processo de auditoria de segurança.
 
-O ENSA 2.0 é uma aplicação web local desenvolvida para realizar análises de rede e detecção de vulnerabilidades utilizando Nmap, Flask, Nginx, Bind9 e uma interface web em HTML, CSS e JavaScript.
-O projeto foi dividido em dois servidores — frontend e backend — que se correlacionam para permitir operações completas de análise sem expor comandos diretamente ao usuário.
+O principal diferencial do ENSA 2.0 é a sua divisão em dois servidores distintos — **Frontend** e **Backend** — que se correlacionam para permitir operações completas de análise, garantindo que os comandos de varredura nunca sejam expostos diretamente ao usuário final.
 
-🚀 Arquitetura do Projeto
-📌 Frontend
+---
 
-O servidor de frontend utiliza:
+## 🚀 Arquitetura do Projeto
 
-Nginx (servidor web)
+A aplicação é estruturada em uma arquitetura de dois servidores, otimizada para segurança e desempenho em um ambiente de rede local.
 
-Bind9 (DNS local)
+### 📌 Frontend
 
-HTML, CSS e JavaScript (interface)
+O servidor de Frontend é o ponto de contato do usuário e é responsável pela apresentação e interação.
 
-Exibição dinâmica dos resultados
+| Componente | Função |
+| :--- | :--- |
+| **Nginx** | Servidor web para servir a interface estática. |
+| **Bind9** | Serviço de DNS local para resolução de nomes. |
+| **HTML, CSS, JS** | Interface de usuário (UI) para seleção de varreduras e exibição de resultados. |
 
-Consumo da API Flask em tempo real
+**Características:**
+*   **Exibição Dinâmica:** Apresentação dos resultados em tempo real.
+*   **Consumo de API:** Comunicação assíncrona com o Backend via API Flask.
+*   **Interface Intuitiva:** Permite ao usuário escolher entre dois tipos de varredura (Stealth e Completa).
 
-A interface permite ao usuário escolher entre dois tipos de varredura (Stealth e Completa) e visualizar os resultados ao vivo.
+### 📌 Backend
 
-📌 Backend
+O Backend é o motor de processamento do ENSA 2.0, responsável por toda a lógica de segurança e execução das ferramentas de análise.
 
-O backend é responsável por toda a lógica de varredura e execução do Nmap:
+| Componente | Função |
+| :--- | :--- |
+| **Python/Flask** | Framework web para a criação da API REST. |
+| **Nmap** | Ferramenta de linha de comando para varredura de rede e detecção de vulnerabilidades. |
 
-Construído em Python com Flask
+**Características:**
+*   **Lógica de Varredura:** Executa os comandos do Nmap internamente, isolando a complexidade do usuário.
+*   **API RESTful:** Retorna os resultados das varreduras em formato **JSON**.
+*   **Comunicação Segura:** Envia a resposta à interface via HTTP, mantendo a comunicação direta e isolada do Frontend.
 
-Executa os comandos do Nmap internamente
+---
 
-Retorna os resultados em formato JSON
+## 🔍 Tipos de Varredura Implementados
 
-Envia a resposta à interface via HTTP
+O ENSA 2.0 oferece dois modos de varredura, atendendo a diferentes necessidades de análise:
 
-Mantém comunicação direta com o frontend (sem exposição de IPs aqui)
+### 1️⃣ Varredura Stealth (Scan Básico)
 
-🔍 Tipos de Varredura Implementados
-1️⃣ Varredura Stealth (Scan Básico)
+Ideal para uma verificação rápida e discreta de portas abertas.
 
-Executa internamente o comando:
+| Característica | Descrição |
+| :--- | :--- |
+| **Comando Interno** | `nmap -sS <IP_ou_Rede>` |
+| **Objetivo** | Identificar portas abertas. |
+| **Vantagens** | Mais rápido, silencioso e pode ser aplicado a IPs isolados ou redes completas. |
 
-nmap -sS <IP> <máscara>
+**Exemplo de Comando Executado:**
+```bash
+nmap -sS <IP_ou_Rede>
+```
 
+### 2️⃣ Varredura Completa (Scan Avançado)
 
-✔ Identifica portas abertas
-✔ Mais rápido e silencioso
-✔ Pode ser usado para IPs isolados ou redes completas
+Projetada para uma análise profunda de hosts, incluindo detecção de versões de serviços e busca por vulnerabilidades conhecidas (CVEs).
 
-2️⃣ Varredura Completa (Scan Avançado)
+| Característica | Descrição |
+| :--- | :--- |
+| **Comando Interno** | `nmap -sV -T3 --script=vulners <IP_ou_Alvo>` |
+| **Objetivo** | Coletar versões de serviços e executar o script `vulners` para capturar CVEs. |
+| **Vantagens** | Análise profunda, utilizando agressividade `T3` para melhor detecção. |
 
-Executa:
-
+**Exemplo de Comando Executado:**
+```bash
 nmap -sV -T3 --script=vulners <IP_ou_Alvo>
+```
 
+---
 
-✔ Coleta versões de serviços
-✔ Executa script vulners para capturar CVEs
-✔ Utiliza agressividade T3 para melhor detecção
-✔ Ideal para análise profunda de hosts e serviços
+## 🌐 Fluxo Interno de Funcionamento
 
-🌐 Fluxo Interno de Funcionamento
+O processo de análise é simplificado para o usuário, mas segue um fluxo rigoroso nos bastidores:
 
-O usuário acessa o site e escolhe o tipo de scan
+1.  O usuário acessa a interface web (Frontend) e escolhe o tipo de varredura e o alvo.
+2.  A interface (JavaScript) envia a requisição para a **API Flask** (Backend).
+3.  O Backend executa o comando **Nmap** correspondente internamente.
+4.  Os resultados brutos do Nmap são processados e convertidos em formato **JSON**.
+5.  O Backend envia a resposta JSON de volta ao Frontend via HTTP.
+6.  O Frontend recebe e exibe os resultados em tempo real por meio do JavaScript.
 
-A interface envia a requisição para a API Flask
+---
 
-O backend executa o Nmap
+## 🛠️ Tecnologias Utilizadas
 
-Os resultados são convertidos em JSON
+O projeto combina tecnologias modernas de desenvolvimento web e ferramentas de segurança de rede:
 
-O frontend recebe e exibe os resultados em tempo real por meio do JavaScript
+| Categoria | Tecnologia |
+| :--- | :--- |
+| **Frontend** | HTML5, CSS3, JavaScript, Nginx, Bind9 |
+| **Backend** | Python, Flask, Nmap |
 
-📄 Documentação Completa
+---
 
-A documentação oficial do projeto pode ser acessada no arquivo PDF que acompanha este repositório.
+## 🎯 Objetivo do Projeto
 
-📥 Download da documentação:
-O PDF gerado contém detalhes sobre arquitetura, comunicação entre servidores, funcionamento dos scans e estrutura da aplicação.
+O ENSA 2.0 foi criado como uma ferramenta **educacional** e **técnica** para facilitar o estudo e a prática em áreas cruciais da segurança da informação:
 
-🛠️ Tecnologias Utilizadas
+*   Segurança de redes
+*   Análise de vulnerabilidades
+*   Automação de scans
+*   Integração frontend-backend
+*   Estruturação de ferramentas de auditoria local
 
-Frontend
+---
 
-HTML5
+## 📄 Documentação Completa
 
-CSS3
+A documentação oficial do projeto, contendo detalhes sobre a arquitetura, comunicação entre servidores, funcionamento dos scans e estrutura da aplicação, está disponível em formato PDF.
 
-JavaScript
-
-Nginx
-
-Bind9
-
-Backend
-
-Python
-
-Flask
-
-Nmap (executado via backend)
-
-📌 Objetivo
-
-O ENSA 2.0 foi criado como uma ferramenta educacional e técnica para estudos em:
-
-Segurança de redes
-
-Análise de vulnerabilidades
-
-Automação de scans
-
-Integração frontend-backend
-
-Estruturação de ferramentas de auditoria local
+**📥 Download da documentação:** [Link para o PDF da Documentação Completa]
+*Substitua o texto entre colchetes pelo link real do seu arquivo PDF.*
