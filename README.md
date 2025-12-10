@@ -117,5 +117,5 @@ O ENSA 2.0 foi criado como uma ferramenta **educacional** e **técnica** para fa
 
 A documentação oficial do projeto, contendo detalhes sobre a arquitetura, comunicação entre servidores, funcionamento dos scans e estrutura da aplicação, está disponível em formato PDF.
 
-**📥 Download da documentação:** [](https://drive.google.com/file/d/1dCpZEXJgFKC3ExRFB7XTqX7gbCSxjV4X/view?usp=sharing)]
+**📥 Download da documentação:** [(https://drive.google.com/file/d/1dCpZEXJgFKC3ExRFB7XTqX7gbCSxjV4X/view?usp=sharing)]
 
