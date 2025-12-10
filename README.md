@@ -1,4 +1,4 @@
-# 🛡️ ENSA 2.0: Network Security Analyzer
+# 🛡️ ENSA 2.0: Eyes Network Security Analyzer
 
 O **ENSA 2.0** (Network Security Analyzer) é uma aplicação web local projetada para realizar **análises de rede** e **detecção de vulnerabilidades** de forma eficiente e segura. Utilizando uma arquitetura robusta baseada em **Nmap**, **Flask**, **Nginx** e **Bind9**, o projeto oferece uma interface web intuitiva em HTML, CSS e JavaScript para simplificar o processo de auditoria de segurança.
 
